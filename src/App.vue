@@ -1,10 +1,21 @@
 <template>
-  <nav>
-    <router-link :to="{ name: 'event-list' }">Events</router-link> |
-    <router-link :to="{ name: 'about' }">About</router-link>
-  </nav>
-  <router-view />
+  <div id="app">
+    <div id="flashMessage" v-if="GStore.flashMessage">
+      {{ GStore.flashMessage }}
+    </div>
+    <nav>
+      <router-link :to="{ name: 'event-list' }">Events</router-link> |
+      <router-link :to="{ name: 'about' }">About</router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
+
+<script>
+export default {
+  inject: ["GStore"],
+};
+</script>
 
 <style>
 #app {
@@ -30,5 +41,19 @@ nav a.router-link-exact-active {
 
 h4 {
   font-size: 20px;
+}
+
+@keyframes yellowfade {
+  0% {
+    background-color: yellow;
+  }
+  100% {
+    background-color: white;
+  }
+}
+
+#flashMessage {
+  animation-name: yellowfade;
+  animation-duration: 3s;
 }
 </style>
