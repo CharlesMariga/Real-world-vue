@@ -8,10 +8,13 @@ export default {
   name: "EventDetails",
   props: ["event"],
   inject: ["GStore"],
+  data() {
+    return {
+      unsavedChanges: true,
+    };
+  },
   methods: {
     register() {
-      console.log(this.GStore);
-
       this.GStore.flashMessage =
         "You have registered for this " + this.event.title;
 
@@ -22,6 +25,17 @@ export default {
         name: "event-details",
       });
     },
+  },
+  beforeRouteLeave() {
+    if (this.unsavedChanges) {
+      const answer = window.confirm(
+        "Do you really want to leave? You have unsaved changes!"
+      );
+
+      if (!answer) {
+        return false;
+      }
+    }
   },
 };
 </script>
