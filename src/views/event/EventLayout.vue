@@ -24,9 +24,25 @@ export default {
     };
   },
   created() {
-    EventService.getEvent(this.id).then((response) => {
-      this.event = response.data;
-    });
+    EventService.getEvent(this.id)
+      .then((response) => {
+        this.event = response.data;
+      })
+      .catch((error) => {
+        if (error.response?.status == 404) {
+          this.$router.push({
+            name: "404-resource",
+            params: { resource: "event" },
+          });
+        } else {
+          this.$router.push({ name: "network-error" });
+        }
+
+        this.$router.push({
+          name: "404-resource",
+          params: { resource: "event" },
+        });
+      });
   },
 };
 </script>
